@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="CSS格式化 CSS压缩">
+<meta name="description" content="CSS格式化 CSS压缩">
+<title>CSS 格式整理与压缩</title>
+<style type="text/css">
+html,body,form,fieldset,textarea { height:100%; margin:0; padding:0; border:0; font-size:14px; background:#eee; }
+form { margin:0 1%; overflow:hidden; }
+legend { line-height:3em; font-weight:bold; }
+button { float:left; margin:1% 1% 0 0; cursor:pointer; }
+textarea { width:100%; height:20em; border:1px solid #ccc; display:block; background:#fff; }
+</style>
+</head>
+<body>
+<form action="" onsubmit="return false">
+	<fieldset>
+		<legend>样式表(CSS) 格式整理与压缩</legend>
+		<textarea name="" rows="" cols="" id="codeText">body * { font-size:10pt; }/* ss sda   */			
+p 
+{ clear:left; padding:5px 10px;
+}
+td 
+,
+fieldset
+{	padding			 		 : 	 10px 	 ;	 }
+textarea { 
+	 width:90%;
+	 height:10em;
+ }
+		</textarea>
+		<button type="button" onclick="$('codeText').value=code.compression();">压缩代码 compression</button>
+		<button type="button" onclick="$('codeText').value=code.multiLines();">格式(多行) multiLines</button>
+		<button type="button" onclick="$('codeText').value=code.singleLine();">格式(单行) singleLine</button>
+		<button type="button" onclick="$('codeText').value=code.restore();">还原代码  restore</button>
+	</fieldset>
+</form>
+
+<script type="text/javascript">
+function $(id){
+	return document.getElementById(id);
+}
+function codeZip(obj){
+	this.getCode=function(){
+		var code=obj.value;
+		if(!this.codeZ||this.codeZ=="")
+			this.codeZ=code;
+		code=code.replace(/(\n|\t|\s)*/ig,'$1');
+		code=code.replace(/\n|\t|\s(\{|\}|\,|\:|\;)/ig,'$1');
+		code=code.replace(/(\{|\}|\,|\:|\;)\s/ig,'$1');
+		return code;
+	}
+	this.compression=function(){
+		var code=this.getCode();
+		return code;
+	} 
+	this.multiLines=function(){
+		var code=this.getCode();
+		code=code.replace(/(\{)/ig,' $1');
+		code=code.replace(/(\{|\;)/ig,'$1\n\t');
+		code=code.replace(/\t*(\})/ig,'$1\n');
+		code=code.replace(/(\*\/)/ig,'$1\n');
+		return code;
+	}
+	this.singleLine=function(){
+		var code=this.getCode();
+		code=code.replace(/(\})/ig,'$1\n');
+		code=code.replace(/(\*\/)/ig,'$1\n');
+		return code;
+	} 
+	this.restore=function(){
+		return (this.codeZ)?this.codeZ:obj.value;
+	}
+	var my=this;
+	obj.onkeydown=function(){
+		my.codeZ="";	
+	}
+}
+var code=new codeZip($('codeText'));
+
+
+</script>
+</body>
+</html>
