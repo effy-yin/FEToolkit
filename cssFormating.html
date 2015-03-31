@@ -41,7 +41,7 @@ textarea {
 function $(id){
 	return document.getElementById(id);
 }
-function codeZip(obj){
+function cssFormating(obj){
 	this.getCode=function(){
 		var code=obj.value;
 		if(!this.codeZ||this.codeZ=="")
@@ -77,7 +77,7 @@ function codeZip(obj){
 		my.codeZ="";	
 	}
 }
-var code=new codeZip($('codeText'));
+var code=new cssFormating($('codeText'));
 
 
 </script>
