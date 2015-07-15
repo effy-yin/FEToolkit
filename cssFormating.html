@@ -6,17 +6,17 @@
 <meta name="description" content="CSS格式化 CSS压缩">
 <title>CSS 格式整理与压缩</title>
 <style type="text/css">
-html,body,form,fieldset,textarea { height:100%; margin:0; padding:0; border:0; font-size:14px; background:#eee; }
-form { margin:0 1%; overflow:hidden; }
-legend { line-height:3em; font-weight:bold; }
-button { float:left; margin:1% 1% 0 0; cursor:pointer; }
-textarea { width:100%; height:20em; border:1px solid #ccc; display:block; background:#fff; }
+	html,body,form,fieldset,textarea { height:100%; margin:0; padding:0; border:0; font-size:14px; background:#eee; }
+	form { margin:0 1%; overflow:hidden; }
+	legend { line-height:3em; font-weight:bold; }
+	button { width:180px;margin:1% 1% 0 0; cursor:pointer; }
+	textarea { width:100%; height:20em; border:1px solid #ccc; display:block; background:#fff; }
 </style>
 </head>
 <body>
-<form action="" onsubmit="return false">
+<form action="" onsubmit="return false;">
 	<fieldset>
-		<legend>样式表(CSS) 格式整理与压缩</legend>
+		<legend>样式表(CSS) 格式化整理与压缩</legend>
 		<textarea name="" rows="" cols="" id="codeText">body * { font-size:10pt; }/* ss sda   */			
 p 
 { clear:left; padding:5px 10px;
@@ -30,55 +30,48 @@ textarea {
 	 height:10em;
  }
 		</textarea>
-		<button type="button" onclick="$('codeText').value=code.compression();">压缩代码 compression</button>
-		<button type="button" onclick="$('codeText').value=code.multiLines();">格式(多行) multiLines</button>
-		<button type="button" onclick="$('codeText').value=code.singleLine();">格式(单行) singleLine</button>
-		<button type="button" onclick="$('codeText').value=code.restore();">还原代码  restore</button>
+		
+		<button type="button" id="compress">压缩代码</button>
+		<button type="button" id="compressWithNote">压缩代码(保留注释)</button><br/>
+		<button type="button" id="multiLine">格式化(多行)</button>
+		<button type="button" id="multiLineWithNote">格式化(多行)(保留注释)</button><br/>
+		<button type="button" id="singleLine">格式化(单行)</button>
+		<button type="button" id="singleLineWithNote">格式化(单行)(保留注释)</button><br/>	
+		<button type="button" id="restore">还原代码</button>
 	</fieldset>
 </form>
 
+<script type="text/javascript" src="cssformating.js"></script>
+
 <script type="text/javascript">
-function $(id){
+
+function $(id) {
 	return document.getElementById(id);
 }
-function cssFormating(obj){
-	this.getCode=function(){
-		var code=obj.value;
-		if(!this.codeZ||this.codeZ=="")
-			this.codeZ=code;
-		code=code.replace(/(\n|\t|\s)*/ig,'$1');
-		code=code.replace(/\n|\t|\s(\{|\}|\,|\:|\;)/ig,'$1');
-		code=code.replace(/(\{|\}|\,|\:|\;)\s/ig,'$1');
-		return code;
-	}
-	this.compression=function(){
-		var code=this.getCode();
-		return code;
-	} 
-	this.multiLines=function(){
-		var code=this.getCode();
-		code=code.replace(/(\{)/ig,' $1');
-		code=code.replace(/(\{|\;)/ig,'$1\n\t');
-		code=code.replace(/\t*(\})/ig,'$1\n');
-		code=code.replace(/(\*\/)/ig,'$1\n');
-		return code;
-	}
-	this.singleLine=function(){
-		var code=this.getCode();
-		code=code.replace(/(\})/ig,'$1\n');
-		code=code.replace(/(\*\/)/ig,'$1\n');
-		return code;
-	} 
-	this.restore=function(){
-		return (this.codeZ)?this.codeZ:obj.value;
-	}
-	var my=this;
-	obj.onkeydown=function(){
-		my.codeZ="";	
-	}
-}
-var code=new cssFormating($('codeText'));
 
+var codeText =$('codeText');
+var format = new CSSFormating(codeText);
+$('compressWithNote').onclick = function() {
+	codeText.value = format.compress(true);
+}
+$('compress').onclick = function() {
+	codeText.value = format.compress(false);
+}
+$('multiLineWithNote').onclick = function() {
+	codeText.value = format.multiLine(true);
+}
+$('multiLine').onclick = function() {
+	codeText.value = format.multiLine(false);
+}
+$('singleLineWithNote').onclick = function() {
+	codeText.value = format.singleLine(true);
+}
+$('singleLine').onclick = function() {
+	codeText.value = format.singleLine(false);
+}
+$('restore').onclick = function() {
+	codeText.value = format.restore();
+}
 
 </script>
 </body>
